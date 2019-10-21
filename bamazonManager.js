@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
 	host:"localhost",
 	port:3306,
 	user:"root",
-	password:"",
+	password:"Natu123@",
 	database:"bamazon"
 });
 
@@ -71,25 +71,18 @@ function restockRequest(){
 		restockInventory(IDOfProduct, quantityAdded);
 	});
 };
-
 function restockInventory(id, quant){
 	connection.query('SELECT * FROM Products WHERE item_id = '+id, function(err,res){
 		if(err){console.log(err)};
-		connection.query('UPDATE Products SET stock_quantity = stock_quantity + ' +stock_quantity+ 'WHERE item_id =' +item_id);
+		connection.query('UPDATE Products SET stock_quantity = stock_quantity + ' + quant + ' WHERE item_id =' +id);
 
 		displayInventory();
 	});
 };
 
+
 function addRequest(){
-	inquirer.prompt([
-
-	{
-		name: "ID",
-		type: "input",
-		message: "Add ID Number"
-
-	},	
+	inquirer.prompt([	
 	{
 		name: "Name",
 		type: "input",
@@ -112,18 +105,20 @@ function addRequest(){
 	},
 
 	]).then(function(answers){
-		var id = answers.Id;
 		var name = answers.Name;
 		var category = answers.Category;
 		var price = answers.Price;
 		var quantity = answers.Quantity;
-		buildNewItem(id,name,category,price,quantity); 
+		buildNewItem(name,category,price,quantity); 
 	});
   };
 
   function buildNewItem(name,category,price,quantity){
-  	connection.query('INSERT INTO products (item_id,product_name,department_name,price,stock_quantity) VALUES("' + id + '","' + name + '","' + category + '",' + price + ',' + quantity +  ')');
-  	displayInventory();
+	  var query = 'INSERT INTO products (product_name,department_name,price,stock_quantity) VALUES("' + name + '","' + category + '",' + price + ',' + quantity +  ')'
+	  console.log(query);
+	  connection.query(query);
+	  displayInventory();
+	  
   };
 
   function removeRequest(){
@@ -132,13 +127,13 @@ function addRequest(){
   		type:"input",
   		message:"What is the item number of the item you would like to remove?"
   	}]).then(function(answer){
-  		var id = answers.ID;
-  		removeInventory(id); 
+  		
+  		removeInventory(); 
   	});
   };
 
-  function removeInventory(id){
-  	connection.query('DELETE FROM Products WHERE item_id = ' + id);
+  function removeInventory(Name){
+  	connection.query(Name);
   	displayInventory();
   };
 
