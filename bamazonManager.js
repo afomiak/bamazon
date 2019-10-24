@@ -118,23 +118,4 @@ function addRequest(){
 	  console.log(query);
 	  connection.query(query);
 	  displayInventory();
-	  
   };
-
-  function removeRequest(){
-  	inquirer.prompt([{
-  		name:"ID",
-  		type:"input",
-  		message:"What is the item number of the item you would like to remove?"
-  	}]).then(function(answer){
-  		
-  		removeInventory(); 
-  	});
-  };
-
-  function removeInventory(Name){
-  	connection.query(Name);
-  	displayInventory();
-  };
-
-  displayInventory();

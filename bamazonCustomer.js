@@ -2,20 +2,26 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require("cli-table");
 
+require("dotenv").config();
+
+var keys = require("./keys.js");
+
+console.log(keys.user, keys.password)
+
 // creat fuction 
 var connection = mysql.createConnection({
 	host:"localhost",
 	port:3306,
-	user:"root",
-	password:"Natu123@",
+	user:keys.user,
+	password:keys.password,
 	database:"bamazon"
 });
-//loopthrough a function and connect it with our data base
+
 connection.connect(function(err){
 	if(err)throw err;
 	console.log("connected as id" + connection.threadId);
 });
-// put a selectiopn so when a customer select there is a display
+// put a selection so when a customer select there is a display and table
 var displayProducts = function(){
 	var query = "Select * FROM products";
 	connection.query(query, function(err, res){
